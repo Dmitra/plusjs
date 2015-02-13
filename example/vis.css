@@ -9,4 +9,13 @@ body {
   position: absolute;
   top: 50px;
   left: 0px;
-}	
+}
+.labelMonths {
+    text-anchor: middle;
+}
+.labelLabels {
+    font-size: 10px;
+    font-weight: bold;
+    text-anchor: start;
+    margin-left: 10px;
+}

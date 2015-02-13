@@ -8,6 +8,7 @@ Vis.Radial.Label = function (options) {
     var self = this;
 
     self._defaults = {
+        name: '',
         width: 400,
         height: 400,
         rotate: 0,
@@ -28,17 +29,27 @@ Vis.Radial.Label = function (options) {
     self._draw = self.draw
     self.draw = function (data) {
         self._draw(data)
-        self._g.selectAll('.label')
+        var text = self._g.selectAll('.label' + self._config.name)
             .data(data)
             .enter()
-            .append('text')
-            .attr('class', 'label')
+        
+        text.append('text')       
+            .attr('class', 'label' + self._config.name)
             .attr('transform', function(d) {
-                var coords = self.getCoords(self.center, self._config.radius, d.position)
+                var coords = self.getCoords(self.center, (d.radius || self._config.radius) * self._config.factor, d.position)
                 return 'translate(' + coords[0] + ',' + coords[1] + ') rotate(' + self.toGrad(d.position) + ')'
             })
-            .attr('dy', '.71em')
-            .attr("text-anchor", 'middle')
-            .text(function(d) { return d.label })
+            .each(function (d) {
+                var arr = d.label.split('\n')
+                if (arr != undefined) {
+                    for (i = 0; i < arr.length; i++) {
+                        d3.select(this).append('tspan')
+                            .text(arr[i])
+                            .attr('dy', i ? '1.2em' : 0)
+                            .attr('x', 0)
+                            .attr('class', 'tspan' + i)
+                    }
+                }
+            })
     }
 }

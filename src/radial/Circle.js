@@ -8,6 +8,7 @@ Vis.Radial.Circle = function (options) {
     var self = this;
 
     self._defaults = {
+        name: "",
         width: 400,
         height: 400,
         rotate: 0,
@@ -29,17 +30,17 @@ Vis.Radial.Circle = function (options) {
     self.draw = function (data) {
         self._draw(data)
 
-        self._g.selectAll('.circle')
+        self._g.selectAll('.circle' + self._config.name)
             .data(data)
             .enter()
             .append('circle')
-            .attr('class', 'circle')
+            .attr('class', 'circle' + self._config.name)
         
             .attr('cx', function (d) {
-                return self.getCoords(self.center, self._config.radius + d.distance * self._config.factor, d.position)[0]
+                return self.getCoords(self.center, self._config.radius + d.radius * self._config.factor, d.position)[0]
             })
             .attr('cy', function (d) {
-                return self.getCoords(self.center, self._config.radius + d.distance * self._config.factor, d.position)[1]
+                return self.getCoords(self.center, self._config.radius + d.radius * self._config.factor, d.position)[1]
             })
             .attr('r', function (d) { return d.size || self._config.size})
             .style('fill', function(d) { return d.color ? self._color(d.color) : self._config.color })

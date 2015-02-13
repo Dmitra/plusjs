@@ -8,6 +8,7 @@ Vis.Radial.Ray = function (options) {
     var self = this;
 
     self._defaults = {
+        name: '',
         width: 400,
         height: 400,
         direction: 'out',
@@ -43,16 +44,15 @@ Vis.Radial.Ray = function (options) {
                     .attr('stop-color', 'red')
                     .attr('stop-opacity', 0)
 
-        var rays = self._g.selectAll('.ray')
+        var rays = self._g.selectAll('.ray' + self._config.name)
             .data(data)
             .enter()
             .append('path')
-            .attr('class', 'ray')
+            .attr('class', 'ray' + self._config.name)
             //.attr('stroke', 'url(#grad1)')
             .attr('stroke-dasharray', self._config.dashed)
             .attr('d', self.ray)
-            .attr('class', 'line')
-            .style("stroke", function (d) {
+            .style('stroke', function (d) {
                 return self._config.color || self._color(d.color)
             })
             .style('stroke-width', self._config.strokeWidth + 'px');

@@ -8,6 +8,7 @@ var vis = d3.select('#chart>svg')
 
 //Options for the chart, other than default
 var configDistance = {
+    name: 'DISTANCE',
     target: vis,
     width: width,
     height: height,
@@ -21,6 +22,7 @@ var configDistance = {
     positionMax: 365,
 }
 var configPace = {
+    name: 'PACE',
     target: vis,
     width: width,
     height: height,
@@ -34,6 +36,7 @@ var configPace = {
     positionMax: 365,
 }
 var configWeather = {
+    name: 'Weather',
     target: vis,
     width: width,
     height: height,
@@ -45,6 +48,7 @@ var configWeather = {
     positionMax: 365,
 }
 var config30MinDistance = {
+    name: '30 MIN MARK',
     target: vis,
     width: width,
     height: height,
@@ -56,17 +60,25 @@ var config30MinDistance = {
     color: 'rgb(128,93,63)',
     positionMax: 365,
 }
-var configText = {
+var configMonthLabel = {
+    name: 'Months',
     target: vis,
     width: width,
     height: height,
     rotate: 0,
     radius: 200,
     total: 12,
-    format: d3.time.format('%b'),
     font: '1em',
     color: 'grey',
     positionMax: 12,
+}
+var configLabel = {
+    name: 'Labels',
+    target: vis,
+    width: width,
+    height: height,
+    factor: 1,
+    positionMax: 365
 }
 var configTest = {
     colorCoding: [-14, 0, 26],
@@ -87,20 +99,16 @@ d3.csv('data/runstat.csv', function (data) {
     end = new Date(_.last(data).date);
 
     //Prepare data
+    data = data.map(function(d) { d.distance = parseFloat(d.distance); return d})
     var distance = data.map(function (d) {
         return { position: TimeLib.daysPassed(start, new Date(d.date)), rayLength: d.distance}
     })
-    function decimalMinutes (date) {
-        var format = d3.time.format("%H:%M:%S")
-        return (format.parse(date) - format.parse("0:0:0"))/60000
-
-    }
     var pace = data.map(function (d) {
-        return { position: TimeLib.daysPassed(start, new Date(d.date)), rayLength: d.distance / decimalMinutes(d.time) - 0.142}
+        return { position: TimeLib.daysPassed(start, new Date(d.date)), rayLength: d.distance / TimeLib.decimalMinutes(d.time) - 0.142}
     })
     format = d3.time.format('%d/%m/%Y')
     var halfHourDistance = data.map(function (d) {
-        return { position: TimeLib.daysPassed(start, new Date(d.date)), distance: d.distance/decimalMinutes(d.time) * 30}
+        return { position: TimeLib.daysPassed(start, new Date(d.date)), radius: d.distance/TimeLib.decimalMinutes(d.time) * 30}
     })
 
     var dates = data.map(function(d) {
@@ -109,11 +117,23 @@ d3.csv('data/runstat.csv', function (data) {
     var t = d3.time.scale()
         .domain(d3.extent(dates))
     var ticks = t.ticks(d3.time.months, 1)
-    var labelText = ticks.map(function (d, i) {
+    var monthName = ticks.map(function (d, i) {
         return { position: i, label: d3.time.format('%b %y')(d) }
     })
+    var labels = [
+        {
+            position: 104,
+            radius: 400,
+            label: 'INJURY\n LVIV',
+        },
+        {
+            position: 231,
+            radius: 590,
+            label: 'HALFMARATHON 21.1 KM\n 01:38:35\n PARIS FRANCE',
+        },
+    ]
 
-    // create charts
+    // Create charts
     var rayChart = new Vis.Radial.Ray(configDistance)
     rayChart.draw(distance);
     var rayChart2 = new Vis.Radial.Ray(configPace)
@@ -121,8 +141,10 @@ d3.csv('data/runstat.csv', function (data) {
     var circleChart = new Vis.Radial.Circle(config30MinDistance)
     circleChart.draw(halfHourDistance)
     //Draw months names on the circumference of specified radius according to the date
-    var labels = new Vis.Radial.Label(configText)
-    labels.draw(labelText)
+    var labels1 = new Vis.Radial.Label(configMonthLabel)
+    labels1.draw(monthName)
+    var labels2 = new Vis.Radial.Label(configLabel)
+    labels2.draw(labels)
 
 })
 d3.csv('data/weather.csv', function (data) {
