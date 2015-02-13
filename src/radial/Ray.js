@@ -44,7 +44,8 @@ Vis.Radial.Ray = function (options) {
                     .attr('stop-color', 'red')
                     .attr('stop-opacity', 0)
 
-        var rays = self._g.selectAll('.ray' + self._config.name)
+        var rays = self._g.attr('id', 'rayGroup' + self._config.name)
+            .selectAll('.ray' + self._config.name)
             .data(data)
             .enter()
             .append('path')

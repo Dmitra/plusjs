@@ -27,12 +27,13 @@ Vis.Radial.Arc = function (options) {
     self.draw = function (data) {
         self._draw(data)
 
-        var path = self._g.selectAll('.arc')
+        var path = self._g.attr('id', 'arcGroup' + self._config.name)
+            .selectAll('.arc' + self._config.name)
             .data(data)
             .enter()
             .append('path')
+            .attr('class', 'arc' + self._config.name)
             .attr('d', self.arc)
-            .attr('class', 'arc')
             .style('fill', function(d) { return self._color(d.color); })
     }
 

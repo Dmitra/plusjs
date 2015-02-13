@@ -101,14 +101,22 @@ d3.csv('data/runstat.csv', function (data) {
     //Prepare data
     data = data.map(function(d) { d.distance = parseFloat(d.distance); return d})
     var distance = data.map(function (d) {
-        return { position: TimeLib.daysPassed(start, new Date(d.date)), rayLength: d.distance}
+        d.position = TimeLib.daysPassed(start, new Date(d.date))
+        d.rayLength = d.distance
+        return d
     })
     var pace = data.map(function (d) {
-        return { position: TimeLib.daysPassed(start, new Date(d.date)), rayLength: d.distance / TimeLib.decimalMinutes(d.time) - 0.142}
+        return {
+            position: TimeLib.daysPassed(start, new Date(d.date)),
+            rayLength: d.distance / TimeLib.decimalMinutes(d.time) - 0.142
+        }
     })
     format = d3.time.format('%d/%m/%Y')
     var halfHourDistance = data.map(function (d) {
-        return { position: TimeLib.daysPassed(start, new Date(d.date)), radius: d.distance/TimeLib.decimalMinutes(d.time) * 30}
+        return {
+            position: TimeLib.daysPassed(start, new Date(d.date)),
+            radius: d.distance/TimeLib.decimalMinutes(d.time) * 30
+        }
     })
 
     var dates = data.map(function(d) {
@@ -146,6 +154,7 @@ d3.csv('data/runstat.csv', function (data) {
     var labels2 = new Vis.Radial.Label(configLabel)
     labels2.draw(labels)
 
+    interactive()
 })
 d3.csv('data/weather.csv', function (data) {
     var tavg = data.map(function (d) {
@@ -155,3 +164,14 @@ d3.csv('data/weather.csv', function (data) {
     var arcChart = new Vis.Radial.Arc(configWeather)
     arcChart.draw(tavg)
 })
+
+function interactive () {
+    function showLegend(d) {
+        $('#legend>#distance').html(d.distance + ' km')
+        $('#legend>#pace').html((TimeLib.decimalMinutes(d.time) / d.distance).toFixed(2) + ' min/km')
+        $('#legend>#date').html(d.date)
+    }
+    $('#rayGroupDISTANCE').on('mouseover', function (e) {
+        showLegend(e.target.__data__)
+    })
+}

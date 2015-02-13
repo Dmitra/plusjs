@@ -30,12 +30,12 @@ Vis.Radial.Circle = function (options) {
     self.draw = function (data) {
         self._draw(data)
 
-        self._g.selectAll('.circle' + self._config.name)
+        self._g.attr('id', 'circleGroup' + self._config.name)
+            .selectAll('.circle' + self._config.name)
             .data(data)
             .enter()
             .append('circle')
             .attr('class', 'circle' + self._config.name)
-        
             .attr('cx', function (d) {
                 return self.getCoords(self.center, self._config.radius + d.radius * self._config.factor, d.position)[0]
             })

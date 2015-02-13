@@ -10,6 +10,11 @@ body {
   top: 50px;
   left: 0px;
 }
+#legend {
+    position: absolute;
+    left: 470px;
+    top: 510px;
+}
 .labelMonths {
     text-anchor: middle;
 }
