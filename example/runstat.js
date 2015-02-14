@@ -1,5 +1,5 @@
-var width = 1000,
-	height = 1000;
+var width = 800,
+	height = 800;
 
 var container = d3.select('chart')
 var vis = d3.select('#chart>svg')
@@ -17,8 +17,8 @@ var configDistance = {
     direction: 'out',
     color: 'grey',
     strokeWidth: 2,
-    radius: 300,
-    dashed: '10,2',
+    radius: 240,
+    dashed: '12,2',
     positionMax: 365,
 }
 var configPace = {
@@ -31,7 +31,7 @@ var configPace = {
     direction: 'in',
     color: 'rgb(128,93,63)',
     strokeWidth: 2,
-    radius: 280,
+    radius: 230,
     dashed: '10,0',
     positionMax: 365,
 }
@@ -41,7 +41,7 @@ var configWeather = {
     width: width,
     height: height,
     rotate: 0,
-    innerRadius: 110,
+    innerRadius: 100,
     radius: 40,
     colorCoding: [-14, 0, 26],
     colorRange: [d3.rgb(117, 179, 216), '#ffffff',  d3.rgb(244, 153, 21)],
@@ -55,7 +55,7 @@ var config30MinDistance = {
     rotate: 0,
     factor: 14,
     strokeWidth: 1,
-    radius: 300,
+    radius: 240,
     size: 3,
     color: 'rgb(128,93,63)',
     positionMax: 365,
@@ -66,11 +66,12 @@ var configMonthLabel = {
     width: width,
     height: height,
     rotate: 0,
-    radius: 200,
+    radius: 160,
     total: 12,
     font: '1em',
     color: 'grey',
     positionMax: 12,
+    radial: true,
 }
 var configLabel = {
     name: 'Labels',
@@ -101,15 +102,16 @@ d3.csv('data/runstat.csv', function (data) {
     //Prepare data
     data = data.map(function(d) { d.distance = parseFloat(d.distance); return d})
     var distance = data.map(function (d) {
-        d.position = TimeLib.daysPassed(start, new Date(d.date))
-        d.rayLength = d.distance
-        return d
+        var r = JSON.parse(JSON.stringify(d))
+        r.position = TimeLib.daysPassed(start, new Date(d.date))
+        r.rayLength = d.distance
+        return r
     })
     var pace = data.map(function (d) {
-        return {
-            position: TimeLib.daysPassed(start, new Date(d.date)),
-            rayLength: d.distance / TimeLib.decimalMinutes(d.time) - 0.142
-        }
+        var r = JSON.parse(JSON.stringify(d))
+        r.position = TimeLib.daysPassed(start, new Date(d.date)),
+        r.rayLength = d.distance / TimeLib.decimalMinutes(d.time) - 0.142
+        return r
     })
     format = d3.time.format('%d/%m/%Y')
     var halfHourDistance = data.map(function (d) {
@@ -131,12 +133,12 @@ d3.csv('data/runstat.csv', function (data) {
     var labels = [
         {
             position: 104,
-            radius: 400,
+            radius: 350,
             label: 'INJURY\n LVIV',
         },
         {
             position: 231,
-            radius: 590,
+            radius: 410,
             label: 'HALFMARATHON 21.1 KM\n 01:38:35\n PARIS FRANCE',
         },
     ]
@@ -154,15 +156,16 @@ d3.csv('data/runstat.csv', function (data) {
     var labels2 = new Vis.Radial.Label(configLabel)
     labels2.draw(labels)
 
-    interactive()
-})
-d3.csv('data/weather.csv', function (data) {
-    var tavg = data.map(function (d) {
-        return { position: TimeLib.daysPassed(start, format.parse(d.date)), color: d.tave}
+    d3.csv('data/weather.csv', function (data) {
+        var tavg = data.map(function (d) {
+            return { position: TimeLib.daysPassed(start, format.parse(d.date)), color: d.tave}
+        })
+
+        var arcChart = new Vis.Radial.Arc(configWeather)
+        arcChart.draw(tavg)
     })
 
-    var arcChart = new Vis.Radial.Arc(configWeather)
-    arcChart.draw(tavg)
+    interactive()
 })
 
 function interactive () {
@@ -172,6 +175,9 @@ function interactive () {
         $('#legend>#date').html(d.date)
     }
     $('#rayGroupDISTANCE').on('mouseover', function (e) {
+        showLegend(e.target.__data__)
+    })
+    $('#rayGroupPACE').on('mouseover', function (e) {
         showLegend(e.target.__data__)
     })
 }

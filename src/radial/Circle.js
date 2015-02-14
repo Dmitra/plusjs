@@ -8,7 +8,7 @@ Vis.Radial.Circle = function (options) {
     var self = this;
 
     self._defaults = {
-        name: "",
+        name: '',
         width: 400,
         height: 400,
         rotate: 0,

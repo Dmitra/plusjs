@@ -7,7 +7,7 @@ Vis.Radial.Arc = function (options) {
     var self = this
 
     self._defaults = {
-        name: "",
+        name: '',
         width: 400,
         height: 400,
         startRadius: 30,

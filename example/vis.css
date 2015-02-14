@@ -4,7 +4,11 @@ body {
   font-size: 14px;
   font-family: "Helvetica Neue", Helvetica;
 }
-
+h1 {
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
 #chart {
   position: absolute;
   top: 50px;
@@ -12,10 +16,11 @@ body {
 }
 #legend {
     position: absolute;
-    left: 470px;
-    top: 510px;
+    left: 370px;
+    top: 425px;
 }
 .labelMonths {
+    font-size: 1.1em;
     text-anchor: middle;
 }
 .labelLabels {
