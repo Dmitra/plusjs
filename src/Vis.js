@@ -1,15 +1,13 @@
 var Vis = function (options) {
     var self = this;
 
-    self._config = self._defaults
-
-    if('undefined' !== typeof options){
-        for(var i in options){
-            if('undefined' !== typeof options[i]){
-                self._config[i] = options[i];
-            }
-        }
+    var defaults = {
+        name: '',
+        width: 400,
+        height: 400,
     }
+
+    self._config = _.extend(self._defaults, defaults, options)
 
     self._vis = self._config.target
     self._g = self._vis.append('g')

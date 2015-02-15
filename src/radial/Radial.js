@@ -1,6 +1,12 @@
 Vis.Radial = function (options) {
-    Vis.call(this, options);
     var self = this;
+
+    var defaults = {
+        rotate: 0,
+        radius: 50,
+    }
+    self._defaults = _.extend(defaults, self._defaults)
+    Vis.call(this, options);
 
     self._rotateRad = 2 * Math.PI / 180 * self._config.rotate
 

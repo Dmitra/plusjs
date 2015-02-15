@@ -89,7 +89,7 @@ var configTest = {
                     //d3.hsl(  80, 1.50, 0.80),
                     //d3.hsl( 260, 0.75, 0.35)
       //],
-      rayLength: 10
+      length: 10
 }
 
 //Data
@@ -104,13 +104,13 @@ d3.csv('data/runstat.csv', function (data) {
     var distance = data.map(function (d) {
         var r = JSON.parse(JSON.stringify(d))
         r.position = TimeLib.daysPassed(start, new Date(d.date))
-        r.rayLength = d.distance
+        r.length = d.distance
         return r
     })
     var pace = data.map(function (d) {
         var r = JSON.parse(JSON.stringify(d))
         r.position = TimeLib.daysPassed(start, new Date(d.date)),
-        r.rayLength = d.distance / TimeLib.decimalMinutes(d.time) - 0.142
+        r.length = d.distance / TimeLib.decimalMinutes(d.time) - 0.142
         return r
     })
     format = d3.time.format('%d/%m/%Y')
@@ -144,9 +144,9 @@ d3.csv('data/runstat.csv', function (data) {
     ]
 
     // Create charts
-    var rayChart = new Vis.Radial.Ray(configDistance)
+    var rayChart = new Vis.Radial.Bar(configDistance)
     rayChart.draw(distance);
-    var rayChart2 = new Vis.Radial.Ray(configPace)
+    var rayChart2 = new Vis.Radial.Bar(configPace)
     rayChart2.draw(pace);
     var circleChart = new Vis.Radial.Circle(config30MinDistance)
     circleChart.draw(halfHourDistance)
@@ -174,10 +174,10 @@ function interactive () {
         $('#legend>#pace').html((TimeLib.decimalMinutes(d.time) / d.distance).toFixed(2) + ' min/km')
         $('#legend>#date').html(d.date)
     }
-    $('#rayGroupDISTANCE').on('mouseover', function (e) {
+    $('#barGroupDISTANCE').on('mouseover', function (e) {
         showLegend(e.target.__data__)
     })
-    $('#rayGroupPACE').on('mouseover', function (e) {
+    $('#barGroupPACE').on('mouseover', function (e) {
         showLegend(e.target.__data__)
     })
 }

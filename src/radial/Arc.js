@@ -6,21 +6,16 @@
 Vis.Radial.Arc = function (options) {
     var self = this
 
-    self._defaults = {
-        name: '',
-        width: 400,
-        height: 400,
-        startRadius: 30,
-        radius: 10,
+    var defaults = {
         //position Number of total positions
         //if not set [min, max] values are used from data
         //positionMax: 10,
-        rotate: 0,
         factor: 1,
         colorCodingMin: undefined,
         colorCodingMax: undefined,
         colorRange: ['violet', 'red'],
     }
+    self._defaults = _.extend(defaults, self._defaults)
     Vis.Radial.call(this, options);
 
     self._draw = self.draw

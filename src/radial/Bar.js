@@ -1,29 +1,25 @@
 /**
  * Input data format
  * @position
- * @rayLength
+ * @length
  * @color
  */
-Vis.Radial.Ray = function (options) {
+Vis.Radial.Bar = function (options) {
     var self = this;
 
-    self._defaults = {
-        name: '',
-        width: 400,
-        height: 400,
+    var defaults = {
         direction: 'out',
-        rotate: 0,
         factor: 1,
         dashed: '10,5',
         colorCodingMin: undefined,
         colorCodingMax: undefined,
         colorRange: ['violet', 'red'],
-        rayLength: 0,
-        radius: 50,
+        length: 0,
         //position Number of total positions
         //if not set [min, max] values are used from data
         //positionMax: 10,
     }
+    self._defaults = _.extend(defaults, self._defaults)
     Vis.Radial.call(this, options);
 
     self._draw = self.draw
@@ -44,15 +40,15 @@ Vis.Radial.Ray = function (options) {
                     .attr('stop-color', 'red')
                     .attr('stop-opacity', 0)
 
-        var rays = self._g.attr('id', 'rayGroup' + self._config.name)
-            .selectAll('.ray' + self._config.name)
+        var bars = self._g.attr('id', 'barGroup' + self._config.name)
+            .selectAll('.bar' + self._config.name)
             .data(data)
             .enter()
             .append('path')
-            .attr('class', 'ray' + self._config.name)
+            .attr('class', 'bar' + self._config.name)
             //.attr('stroke', 'url(#grad1)')
             .attr('stroke-dasharray', self._config.dashed)
-            .attr('d', self.ray)
+            .attr('d', self.bar)
             .style('stroke', function (d) {
                 return self._config.color || self._color(d.color)
             })
@@ -60,10 +56,10 @@ Vis.Radial.Ray = function (options) {
 
     }
 
-    self.ray = function (d) {
-        var rayLength = d.rayLength || self._config.rayLength
+    self.bar = function (d) {
+        var length = d.length || self._config.length
         var start = self.getCoords(self.center, self._config.radius, d.position)
-        var end = self.getCoords(self.center, self._config.radius + rayLength * self._config.factor, d.position)
+        var end = self.getCoords(self.center, self._config.radius + length * self._config.factor, d.position)
         return 'M' + start[0] + ' ' + start[1] + 'L' + end[0] + ' ' + end[1]; 
     }
 

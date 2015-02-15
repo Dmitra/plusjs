@@ -7,16 +7,11 @@
 Vis.Radial.Label = function (options) {
     var self = this;
 
-    self._defaults = {
-        name: '',
-        width: 400,
-        height: 400,
-        rotate: 0,
+    var defaults = {
         factor: 1,
         colorCodingMin: undefined,
         colorCodingMax: undefined,
         colorRange: ['violet', 'red'],
-        radius: 50,
         //position Number of total positions
         //if not set [min, max] values are used from data
         //positionMax: 10,
@@ -24,6 +19,7 @@ Vis.Radial.Label = function (options) {
         size: 10,
         color: 'grey'
     }
+    self._defaults = _.extend(defaults, self._defaults)
     Vis.Radial.call(this, options);
 
     self._draw = self.draw
