@@ -4,7 +4,8 @@
  * @color
  * @size
  */
-Vis.Radial.Label = function (options) {
+var Radial = require('./Radial')
+module.exports = function (options) {
     var self = this;
 
     var defaults = {
@@ -20,7 +21,7 @@ Vis.Radial.Label = function (options) {
         color: 'grey'
     }
     self._defaults = _.extend(defaults, self._defaults)
-    Vis.Radial.call(this, options);
+    Radial.call(this, options);
 
     self._draw = self.draw
     self.draw = function (data) {

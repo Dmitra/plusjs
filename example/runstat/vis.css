@@ -29,3 +29,10 @@ h1 {
     text-anchor: start;
     margin-left: 10px;
 }
+.barDISTANCE {
+    stroke-width: 2px;
+    stroke-dasharray: 12,2;
+}
+.barPACE {
+    stroke-width: 2px;
+}

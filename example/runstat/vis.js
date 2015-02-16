@@ -1,3 +1,9 @@
+var TimeLib = require('../../lib/TimeLib')
+var Bar = require('../../src/Radial/Bar')
+var Circle = require('../../src/Radial/Circle')
+var Label = require('../../src/Radial/Label')
+var Arc = require('../../src/Radial/Arc')
+
 var width = 800,
 	height = 800;
 
@@ -7,80 +13,53 @@ var vis = d3.select('#chart>svg')
             .attr('height', height)
 
 //Options for the chart, other than default
-var configDistance = {
-    name: 'DISTANCE',
+var config = {
     target: vis,
     width: width,
     height: height,
     rotate: 0,
+    positionMax: 365,
+}
+var configDistance = _.extend({}, config, {
+    name: 'DISTANCE',
     factor: 14,
     direction: 'out',
     color: 'grey',
-    strokeWidth: 2,
     radius: 240,
-    dashed: '12,2',
-    positionMax: 365,
-}
-var configPace = {
+})
+var configPace = _.extend({}, config, {
     name: 'PACE',
-    target: vis,
-    width: width,
-    height: height,
-    rotate: 0,
     factor: 400,
     direction: 'in',
     color: 'rgb(128,93,63)',
-    strokeWidth: 2,
     radius: 230,
-    dashed: '10,0',
-    positionMax: 365,
-}
-var configWeather = {
+})
+var configWeather = _.extend({}, config, {
     name: 'Weather',
-    target: vis,
-    width: width,
-    height: height,
-    rotate: 0,
     innerRadius: 100,
     radius: 40,
     colorCoding: [-14, 0, 26],
     colorRange: [d3.rgb(117, 179, 216), '#ffffff',  d3.rgb(244, 153, 21)],
-    positionMax: 365,
-}
-var config30MinDistance = {
+})
+var config30MinDistance = _.extend({}, config, {
     name: '30 MIN MARK',
-    target: vis,
-    width: width,
-    height: height,
-    rotate: 0,
     factor: 14,
-    strokeWidth: 1,
     radius: 240,
     size: 3,
     color: 'rgb(128,93,63)',
-    positionMax: 365,
-}
-var configMonthLabel = {
+})
+var configMonthLabel = _.extend({}, config, {
     name: 'Months',
-    target: vis,
-    width: width,
-    height: height,
-    rotate: 0,
     radius: 160,
     total: 12,
     font: '1em',
     color: 'grey',
     positionMax: 12,
     radial: true,
-}
-var configLabel = {
+})
+var configLabel = _.extend({}, config, {
     name: 'Labels',
-    target: vis,
-    width: width,
-    height: height,
-    factor: 1,
-    positionMax: 365
-}
+})
 var configTest = {
     colorCoding: [-14, 0, 26],
     colorRange: [d3.rgb(117, 179, 216), '#ffffff',  d3.rgb(244, 153, 21)], //d3.rgb(191, 219, 243), d3.rgb(253,211,161),
@@ -144,16 +123,16 @@ d3.csv('data/runstat.csv', function (data) {
     ]
 
     // Create charts
-    var rayChart = new Vis.Radial.Bar(configDistance)
+    var rayChart = new Bar(configDistance)
     rayChart.draw(distance);
-    var rayChart2 = new Vis.Radial.Bar(configPace)
+    var rayChart2 = new Bar(configPace)
     rayChart2.draw(pace);
-    var circleChart = new Vis.Radial.Circle(config30MinDistance)
+    var circleChart = new Circle(config30MinDistance)
     circleChart.draw(halfHourDistance)
     //Draw months names on the circumference of specified radius according to the date
-    var labels1 = new Vis.Radial.Label(configMonthLabel)
+    var labels1 = new Label(configMonthLabel)
     labels1.draw(monthName)
-    var labels2 = new Vis.Radial.Label(configLabel)
+    var labels2 = new Label(configLabel)
     labels2.draw(labels)
 
     d3.csv('data/weather.csv', function (data) {
@@ -161,7 +140,7 @@ d3.csv('data/runstat.csv', function (data) {
             return { position: TimeLib.daysPassed(start, format.parse(d.date)), color: d.tave}
         })
 
-        var arcChart = new Vis.Radial.Arc(configWeather)
+        var arcChart = new Arc(configWeather)
         arcChart.draw(tavg)
     })
 

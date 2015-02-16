@@ -4,7 +4,8 @@
  * @length
  * @color
  */
-Vis.Radial.Bar = function (options) {
+var Radial = require('./Radial')
+module.exports = function (options) {
     var self = this;
 
     var defaults = {
@@ -20,7 +21,7 @@ Vis.Radial.Bar = function (options) {
         //positionMax: 10,
     }
     self._defaults = _.extend(defaults, self._defaults)
-    Vis.Radial.call(this, options);
+    Radial.call(this, options);
 
     self._draw = self.draw
     self.draw = function (data) {
@@ -47,12 +48,12 @@ Vis.Radial.Bar = function (options) {
             .append('path')
             .attr('class', 'bar' + self._config.name)
             //.attr('stroke', 'url(#grad1)')
-            .attr('stroke-dasharray', self._config.dashed)
+            .attr('stroke-dasharray', function (d) { return d.dashed})
             .attr('d', self.bar)
             .style('stroke', function (d) {
                 return self._config.color || self._color(d.color)
             })
-            .style('stroke-width', self._config.strokeWidth + 'px');
+            .style('stroke-width', function (d) { return d.strokeWidth + 'px'});
 
     }
 

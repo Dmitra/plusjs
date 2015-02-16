@@ -3,7 +3,8 @@
  * @position
  * @color
  */
-Vis.Radial.Arc = function (options) {
+var Radial = require('./Radial')
+module.exports = function (options) {
     var self = this
 
     var defaults = {
@@ -16,7 +17,7 @@ Vis.Radial.Arc = function (options) {
         colorRange: ['violet', 'red'],
     }
     self._defaults = _.extend(defaults, self._defaults)
-    Vis.Radial.call(this, options);
+    Radial.call(this, options);
 
     self._draw = self.draw
     self.draw = function (data) {

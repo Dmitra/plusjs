@@ -1,4 +1,4 @@
-var Vis = function (options) {
+module.exports = function (options) {
     var self = this;
 
     var defaults = {
@@ -14,6 +14,7 @@ var Vis = function (options) {
 
     //Color settings
     self._setColors = function (data) {
+        if (!data) return
         var colorCodingValues = data.map(function(d) { return d.color })
         self._config.colorCodingMin = self._config.colorCodingMin || d3.min(colorCodingValues)
         self._config.colorCodingMax = self._config.colorCodingMax || d3.max(colorCodingValues)

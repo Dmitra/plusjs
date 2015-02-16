@@ -16,9 +16,13 @@
     "readmeFilename": "README.md",
     "dependencies": {
         "d3": "<=3.5.0",
-        "underscore": "<=1.7.0"
+        "underscore": "<=1.7.0",
+        "d3-transform": "<=1.0.3"
     },
     "devDependencies": {
+        "browserify": "<=8.1.3",
+        "uglify-js": "latest",
+        "watchify" : "latest",
         "grunt": "^0.4.5",
         "grunt-contrib-concat": "~0.5.0",
         "grunt-contrib-jshint": "~0.10.0",

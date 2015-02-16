@@ -1,9 +1,10 @@
-Vis.Radial = function (options) {
+var Vis = require('../Vis')
+module.exports = function (options) {
     var self = this;
 
     var defaults = {
         rotate: 0,
-        radius: 50,
+        radius: 0,
     }
     self._defaults = _.extend(defaults, self._defaults)
     Vis.call(this, options);
@@ -32,5 +33,4 @@ Vis.Radial = function (options) {
         self.toGrad.domain(minMax)
         self._setColors(data)
     }
-
 }
