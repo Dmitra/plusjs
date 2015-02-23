@@ -21,7 +21,5 @@ module.exports = function arcChart(config, _data) {
       .attr('class', 'arc' + config.name)
       .attr('d', arc)
       .style('fill', function(d) { return config.color(d) })
-
-  return self
 }
 

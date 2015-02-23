@@ -13,64 +13,62 @@ var container = d3.select('#chart>svg')
 
 //Options for the chart, other than default
 var config = {
-    target: container,
-    width: width,
-    height: height,
-    rotate: 0,
-    range: [0, 365],
-    size: [width, height],
+  target: container,
+  rotate: 0,
+  range: [0, 365],
+  size: [width, height],
 }
 var configDistance = _.extend({}, config, {
-    name: 'DISTANCE',
-    position: function (d) { return TimeLib.daysPassed(start, new Date(d.date)) },
-    radius: 240,
-    radius2: function (d) { return 240 + d.distance * 14 },
-    dashed: '10,5',
+  name: 'DISTANCE',
+  position: function (d) { return TimeLib.daysPassed(start, new Date(d.date)) },
+  radius: 240,
+  radius2: function (d) { return 240 + d.distance * 14 },
+  dashed: '10,5',
 })
 var configPace = _.extend({}, config, {
-    name: 'PACE',
-    position: function (d) { return TimeLib.daysPassed(start, new Date(d.date)) },
-    radius: 230,
-    radius2: function (d) {
-      //baseRadius + (run velocity - baseLine) * factor
-      return 230 + (d.distance / TimeLib.decimalMinutes(d.time) - 0.142) * -400
-    },
+  name: 'PACE',
+  position: function (d) { return TimeLib.daysPassed(start, new Date(d.date)) },
+  radius: 230,
+  radius2: function (d) {
+    //baseRadius + (run velocity - baseLine) * factor
+    return 230 + (d.distance / TimeLib.decimalMinutes(d.time) - 0.142) * -400
+  },
 })
 var weatherTimeFormatter = d3.time.format('%d/%m/%Y')
 //Color settings
 var weatherTempPainter = d3.scale.linear()
-    .domain([-14, 0, 26])
-    .range([d3.rgb(117, 179, 216), '#ffffff',  d3.rgb(244, 153, 21)])
+  .domain([-14, 0, 26])
+  .range([d3.rgb(117, 179, 216), '#ffffff',  d3.rgb(244, 153, 21)])
 var configWeather = _.extend({}, config, {
-    name: 'Weather',
-    position: function (d) {
-      return TimeLib.daysPassed(start, weatherTimeFormatter.parse(d.date))
-    },
-    innerRadius: 100,
-    radius: 40,
-    color: function (d) { return weatherTempPainter(d.tave) },
+  name: 'Weather',
+  position: function (d) {
+    return TimeLib.daysPassed(start, weatherTimeFormatter.parse(d.date))
+  },
+  innerRadius: 100,
+  radius: 40,
+  color: function (d) { return weatherTempPainter(d.tave) },
 })
 var config30MinDistance = _.extend({}, config, {
-    name: '30_MIN_MARK',
-    position: function (d) {
-      return TimeLib.daysPassed(start, new Date(d.date))
-    },
-    radius: function (d) {
-      return 240 + d.distance/TimeLib.decimalMinutes(d.time) * 30 * 14
-    },
-    circleSize: 3,
+  name: '30_MIN_MARK',
+  position: function (d) {
+    return TimeLib.daysPassed(start, new Date(d.date))
+  },
+  radius: function (d) {
+    return 240 + d.distance/TimeLib.decimalMinutes(d.time) * 30 * 14
+  },
+  circleSize: 3,
 })
 var configMonthLabel = _.extend({}, config, {
-    name: 'Months',
-    rotate: 3,
-    radius: 160,
-    color: 'grey',
-    range: [0, 12],
-    position: function (d) { return d.position },
+  name: 'Months',
+  rotate: 6,
+  radius: 160,
+  color: 'grey',
+  range: [0, 12],
+  position: function (d) { return d.position },
 })
 var configLabel = _.extend({}, config, {
-    name: 'Labels',
-    position: function (d) { return d.position },
+  name: 'Labels',
+  position: function (d) { return d.position },
 })
 
 //Data
@@ -104,7 +102,6 @@ d3.csv('data/runstat.csv', function (data) {
     },
   ]
 
-
   // Create charts
   //---------------------------------------------------------------------------------
   rayChart(configDistance, data)
@@ -113,7 +110,6 @@ d3.csv('data/runstat.csv', function (data) {
   ////Draw months names on the circumference of specified radius according to the date
   radialLabel(configMonthLabel, monthName)
   radialLabel(configLabel, labels)
-  
 
   d3.csv('data/weather.csv', function (_data) {
       arcChart(configWeather, _data)

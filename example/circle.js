@@ -13,7 +13,4 @@ module.exports = function circleChart(config, _data) {
     .attr('cy', function (d) { return d.y })
     .attr('r', config.circleSize)
     .style('fill', function (d) { return d.color })
-
-  return self
 }
-

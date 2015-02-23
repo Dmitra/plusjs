@@ -24,7 +24,7 @@ module.exports = function (options) {
     return data
   }
 
-  self._rotateRad = function () { return 2 * Math.PI / 180 * rotate }
+  self._rotateRad = function () { return Math.PI / 180 * rotate }
 
   self._radScaler = d3.scale.linear()
       .range([0, 2 * Math.PI])
