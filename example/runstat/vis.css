@@ -30,9 +30,14 @@ h1 {
     margin-left: 10px;
 }
 .barDISTANCE {
+    stroke: grey;
     stroke-width: 2px;
     stroke-dasharray: 12,2;
 }
 .barPACE {
+    stroke: rgb(128,93,63);
     stroke-width: 2px;
+}
+.circle30_MIN_MARK {
+  fill: rgb(128,93,63);
 }
