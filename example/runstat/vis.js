@@ -127,10 +127,10 @@ function interactive () {
     $('#legend>#pace').html((TimeLib.decimalMinutes(d.time) / d.distance).toFixed(2) + ' min/km')
     $('#legend>#date').html(d.date)
   }
-  $('#barGroupDISTANCE').on('mouseover', function (e) {
+  $('#barDISTANCEGroup').on('mouseover', function (e) {
     showLegend(e.target.__data__)
   })
-  $('#barGroupPACE').on('mouseover', function (e) {
+  $('#barPACEGroup').on('mouseover', function (e) {
     showLegend(e.target.__data__)
   })
 }
