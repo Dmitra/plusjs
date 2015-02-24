@@ -11,12 +11,15 @@ module.exports = function (options) {
 
   function getCenter() { return [size[0] / 2, size[1] / 2] };
   function setCenter(point) { size = [point[0] * 2, point[1] * 2] }
-  function setRange(range) { 
+  function setRange(value) { 
+    if (!value) return
+    range = value
     self._radScaler.domain(range)
     self._gradScaler.domain(range)
   }
 
   var self = function (data) {
+    if (!range) setRange([0, data.length])
     data.map(function (d) {
       d.x = getCenter()[0] + (radiuser(d) * Math.sin(self.toRad(d)));
       d.y = getCenter()[1] - (radiuser(d) * Math.cos(self.toRad(d)));

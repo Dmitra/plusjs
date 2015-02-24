@@ -21,7 +21,7 @@ h1 {
 }
 .labelMonths {
     font-size: 1.1em;
-    text-anchor: middle;
+    text-anchor: start;
 }
 .labelLabels {
     font-size: 10px;
