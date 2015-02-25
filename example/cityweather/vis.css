@@ -1,0 +1,46 @@
+body {
+  overflow: hidden;
+  margin: 0;
+  font-size: 14px;
+  font-family: "Helvetica Neue", Helvetica;
+}
+h1 {
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+#chart {
+  position: absolute;
+  top: 50px;
+  left: 0px;
+}
+#legend {
+    position: absolute;
+    left: 370px;
+    top: 425px;
+}
+.labelLabels {
+    font-size: 10px;
+    font-weight: bold;
+    text-anchor: start;
+    margin-left: 10px;
+}
+.axisTempAxis {
+    stroke-width: 0.5px;
+    fill: none;
+    stroke: grey;
+}
+.axis text {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+}
+.barTemperature {
+    stroke-width: 1px;
+    fill: none;
+    stroke: grey;
+}
