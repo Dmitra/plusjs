@@ -5,9 +5,10 @@ module.exports = function (options) {
   //---------------------------------------------------------------------------------
   var rotate = 0
     , positioner = Number
-    , radiuser = function (d) { return d.radius }
+    , radiuser = function (d) { return +d.radius }
     , size = [1,1]
     , range = undefined
+    , coordinateSystem = 'cartesian'
 
   function getCenter() { return [size[0] / 2, size[1] / 2] };
   function setCenter(point) { size = [point[0] * 2, point[1] * 2] }
@@ -20,10 +21,20 @@ module.exports = function (options) {
 
   var self = function (data) {
     if (!range) setRange([0, data.length])
-    data.map(function (d) {
-      d.x = getCenter()[0] + (radiuser(d) * Math.sin(self.toRad(d)));
-      d.y = getCenter()[1] - (radiuser(d) * Math.cos(self.toRad(d)));
-    })
+    switch (coordinateSystem) {
+      case 'cartesian': 
+        data.map(function (d) {
+          d.x = getCenter()[0] + (radiuser(d) * Math.sin(self.toRad(d)))
+          d.y = getCenter()[1] - (radiuser(d) * Math.cos(self.toRad(d)))
+        })
+      break;
+      case 'polar':
+        data.map(function (d) {
+          d.rad = self.toRad(d)
+          d.radius = radiuser(d)
+        })
+      break;
+    }
     return data
   }
 
@@ -55,6 +66,7 @@ module.exports = function (options) {
     //position accessor
     position: {get: function(){return positioner;}, set: function(v){positioner=v;}},
     size: {get: function(){return size;}, set: function(v){size=v;}},
+    coordinateSystem: {get: function(){return coordinateSystem;}, set: function(v){coordinateSystem=v;}},
   })
 
   Config.setModuleAccessors(self);

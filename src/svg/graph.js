@@ -1,5 +1,5 @@
 var Radial = require('../src/layout/Radial')
-module.exports = function circleChart(config, _data) {
+module.exports = function graph(config, _data) {
   var radialLayout = Radial(config)
   radialLayout(_data)
   var self = config.target.append('g').attr('id', 'graphGroup' + config.name)
