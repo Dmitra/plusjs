@@ -4,6 +4,7 @@ var rayDraw = require('../../src/svg/radial/ray')
 var gridLine = require('../../src/svg/radial/gridLine')
 var cubehelix = require('../../lib/cubehelix')
 var graphDraw = require('../../src/svg/graph')
+var radialLabel = require('../../src/svg/radial/label')
 
 var width = 800, height = 800;
 var container = d3.select('chart')
@@ -24,16 +25,22 @@ d3.csv('data/2014_USW00023234.csv', function (data) {
   //w[d.date][d.attr] = parseInt(d.value)
   //})
   //var a = d3.csv.format(_.toArray(w))
-
+  
   var dateFormatter = d3.time.format('%Y%m%d')
-  //Options for the chart, other than default
+  var datesDomain = d3.extent(data.map(function(d) {
+    return dateFormatter.parse(d.DATE);
+  }))
+
+  //Config
+  //---------------------------------------------------------------------------------
   var config = {
     target: vis,
     size: [width, height],
   }
+  var yearRange = [0,365]
   var positionScaler = d3.time.scale()
-    .domain([dateFormatter.parse(data[0].DATE), dateFormatter.parse(_.last(data).DATE)])
-    .range([0,365])
+    .domain(datesDomain)
+    .range(yearRange)
   //TODO set individual temperature color scale (pick color for range
   //[cruel cold, ?, frosty, cold, cool, comfort, hot, super hot]
   //[-26--18, -18--10, -10--2, 2-10, 10-18, 18-26, 26-34, 34-42
@@ -60,7 +67,7 @@ d3.csv('data/2014_USW00023234.csv', function (data) {
 
   var configTemp = _.extend({}, config, {
     name: 'Temperature',
-    positionRange: [0, 365],
+    positionRange: yearRange,
     position: function (d) { return positionScaler(dateFormatter.parse(d.DATE)) },
     value: {
       start: function (d) { return +d.TMIN/10 },
@@ -89,13 +96,31 @@ d3.csv('data/2014_USW00023234.csv', function (data) {
     interpolate: 'basis-closed',
     tension: 0.5,
   })
+  var configLabel = _.extend({}, config, {
+    name: 'Months',
+    coordinateSystem: 'polar',
+    range: undefined,
+    position: function (d) { return d.position },
+    radius: 330,
+  })
+
+  //Prepare data
+  //---------------------------------------------------------------------------------
+  var t = d3.time.scale()
+      .domain(datesDomain)
+  var ticks = t.ticks(d3.time.months, 1)
+  var monthLabels = ticks.map(function (d, i) {
+    return { position: i, label: d3.time.format('%b')(d) }
+  })
 
   // Create charts
+  //---------------------------------------------------------------------------------
   gridLine(configGrid)
   rayDraw(configTemp, data)
 
   Radial(configGraph)(data)
   graphDraw(configGraph, data)
+  radialLabel(configLabel, monthLabels)
 
   interactive()
 
@@ -109,7 +134,7 @@ d3.csv('data/2014_USW00023234.csv', function (data) {
   var axis = d3.svg.axis()
     .scale(scale)
     .orient('right')
-    .tickFormat(function (d) { return d + ' C' })
+    .tickFormat(function (d) { return d + '°C' })
 
   config.target.append('g').attr('transform', d3.svg.transform().translate(self.center))
     .call(axis)
@@ -129,12 +154,20 @@ d3.csv('data/2014_USW00023234.csv', function (data) {
 
   function interactive () {
     function showLegend(d) {
+      $('#legend>#date').html(d3.time.format('%d %b')(dateFormatter.parse(d.DATE)))
       $('#legend>#tmax').html(configTemp.value.start(d) + ' C')
       $('#legend>#tmin').html(configTemp.value.end(d) + ' C')
       $('#legend>#tave').html((+d.TMIN + +d.TMAX)/2/10)
     }
+    function highlight(d) {
+      d3.select(d).classed('highlight', !d.classList.contains('highlight'))
+    }
     $('#barTemperatureGroup').on('mouseover', function (e) {
       showLegend(e.target.__data__)
+      highlight(e.target)
+    })
+    $('#barTemperatureGroup').on('mouseout', function (e) {
+      highlight(e.target)
     })
   }
 })

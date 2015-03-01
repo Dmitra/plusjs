@@ -3,7 +3,7 @@ var Radial = require('../../src/layout/Radial')
 var rayDraw = require('../../src/svg/radial/ray')
 var circleDraw = require('../../src/svg/circle')
 var arcDraw = require('../../src/svg/radial/arc')
-var labelDraw = require('../../src/svg/radial/label')
+var radialLabel = require('../../src/svg/radial/label')
 
 var width = 800, height = 800;
 var container = d3.select('#chart>svg')
@@ -17,7 +17,8 @@ d3.csv('data/runstat.csv', function (data) {
   var start = new Date(data[0].date)
   var end = new Date(_.last(data).date);
 
-  //Options for the charts
+  //Config
+  //---------------------------------------------------------------------------------
   var config = {
     target: container,
     rotate: 0,
@@ -98,7 +99,6 @@ d3.csv('data/runstat.csv', function (data) {
     },
   ]
 
-
   // Create charts
   //---------------------------------------------------------------------------------
   rayDraw(configDistance, data)
@@ -106,14 +106,16 @@ d3.csv('data/runstat.csv', function (data) {
   Radial(config30MinDistance)(data)
   circleDraw(config30MinDistanceCircle, data)
   ////Draw months names on the circumference of specified radius according to the date
-  labelDraw(configMonthLabel, monthLabels)
-  labelDraw(configLabel, labels)
+  radialLabel(configMonthLabel, monthLabels)
+  radialLabel(configLabel, labels)
   //container.append('circle')
     //.attr('cx', 400)
     //.attr('cy', 400)
     //.attr('r', 240)
     //.attr('class', 'belt')
 
+  //Load second set of data
+  //---------------------------------------------------------------------------------
   d3.csv('data/weather.csv', function (_data) {
     var weatherTimeFormatter = d3.time.format('%d/%m/%Y')
     //Color settings
