@@ -15,7 +15,8 @@ module.exports = function radialGridLine(config) {
     .map(function (d) { return pixelScale(d) })
     
 
-  config.target.append('g').selectAll('.' + name)
+  config.target.append('g').attr('class', name + 'Group')
+    .selectAll('.' + name)
     .data(ticks)
     .enter()
     .append('circle')

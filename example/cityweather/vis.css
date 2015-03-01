@@ -9,15 +9,19 @@ h1 {
   margin-right: auto;
   width: 40%;
 }
+path, circle {
+  fill:none;
+  stroke:grey;
+}
 #chart {
   position: absolute;
   top: 50px;
   left: 0px;
 }
 #legend {
-    position: absolute;
-    left: 370px;
-    top: 425px;
+  position: absolute;
+  left: 370px;
+  top: 425px;
 }
 .labelLabels {
   font-size: 10px;
@@ -27,19 +31,13 @@ h1 {
 }
 .axisTempAxis {
   stroke-width: 0.5px;
-  fill: none;
-  stroke: grey;
 }
 .axis text {
   font: 10px sans-serif;
 }
-
-.gridLineTempGrid {
-  fill: none;
-  stroke: grey;
-}
 .barTemperature {
   stroke-width: 1px;
-  fill: none;
-  stroke: grey;
+}
+.graphMediana, .gridLineTempGrid {
+  stroke: rgba(0, 0, 0, 0.21)
 }

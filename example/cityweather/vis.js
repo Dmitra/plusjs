@@ -1,7 +1,9 @@
+var Radial = require('../../src/layout/Radial')
 require('../../node_modules/d3-transform/src/d3-transform')
 var rayDraw = require('../../src/svg/radial/ray')
 var gridLine = require('../../src/svg/radial/gridLine')
 var cubehelix = require('../../lib/cubehelix')
+var graphDraw = require('../../src/svg/graph')
 
 var width = 800, height = 800;
 var container = d3.select('chart')
@@ -77,10 +79,23 @@ d3.csv('data/2014_USW00023234.csv', function (data) {
     sectors: 12,
     sectorSize: 0.9,
   })
+  var tempScaler = d3.scale.linear()
+    .domain([-40, 40])
+    .range([0, width/2*.8])
+  var configGraph = _.extend({}, config, {
+    name: 'Mediana',
+    position: function (d) { return positionScaler(dateFormatter.parse(d.DATE)) },
+    radius: function (d) { return tempScaler((+d.TMIN + +d.TMAX)/2/10) },
+    interpolate: 'basis-closed',
+    tension: 0.5,
+  })
 
   // Create charts
   gridLine(configGrid)
   rayDraw(configTemp, data)
+
+  Radial(configGraph)(data)
+  graphDraw(configGraph, data)
 
   interactive()
 
