@@ -1,33 +1,33 @@
 {
-    "name": "Vis",
-    "version": "0.0.1",
-    "description": "reusable library for radial visualizations",
-        "main": "vis.js",
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/Dmitra/vis.git"
-    },
-    "keywords": [
-        "d3",
-        "chart"
-    ],
-    "author": "Dmitra",
-    "license": "MIT",
-    "readmeFilename": "README.md",
-    "dependencies": {
-        "d3": "<=3.5.0",
-        "underscore": "<=1.7.0",
-        "d3-transform": "<=1.0.3"
-    },
-    "devDependencies": {
-        "browserify": "<=8.1.3",
-        "uglify-js": "latest",
-        "watchify" : "latest",
-        "grunt": "^0.4.5",
-        "grunt-contrib-concat": "~0.5.0",
-        "grunt-contrib-jshint": "~0.10.0",
-        "grunt-contrib-uglify": "~0.4.0",
-        "grunt-contrib-watch": "^0.6.1",
-        "load-grunt-tasks": "~0.2.0"
-    }
+  "name": "Vis",
+  "version": "0.0.2",
+  "description": "reusable library for radial visualizations",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Dmitra/vis.git"
+  },
+  "keywords": [
+    "d3",
+    "chart"
+  ],
+  "author": "Dmitra",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "scripts" : {
+    "build-debug": "browserify src/index.js -d -s Vis > vis.js",
+    "build-min": "browserify src/index.js -s Vis | uglifyjs -c > vis.min.js",
+    "build": "npm run build-debug && npm run build-min",
+    "watch": "watchify src/index.js -d -s Vis -o vis.js -v"
+  },
+  "dependencies": {
+    "d3": "<=3.5.0",
+    "underscore": "<=1.7.0",
+    "d3-transform": "<=1.0.3"
+  },
+  "devDependencies": {
+    "browserify": "<=8.1.3",
+    "uglify-js": "latest",
+    "watchify" : "latest"
+  }
 }

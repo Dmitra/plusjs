@@ -1,4 +1,3 @@
-var Radial = require('Radial')
 module.exports = {
-  Radial: Radial
+  Radial: require('./Radial'),
 }
