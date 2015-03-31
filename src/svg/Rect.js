@@ -24,7 +24,7 @@ module.exports = function() {
         , vxWidth = vx - vx0
         , vyWidth = vy - vy0
       vx0 = vx0 + vxWidth * dx0
-      vy0 = vy0 + vyWidth * dx0
+      vy0 = vy0 + vyWidth * dy0
 
       if (widthFn !== 1) vx = vx0 + vxWidth * widthFn()
       if (heightFn !== 1) vy = vy0 + vyWidth * heightFn()
