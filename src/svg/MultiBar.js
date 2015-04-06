@@ -3,34 +3,53 @@ var Config = require('../../lib/vis/core/Config')
 module.exports = function (options) {
   // Default Settings
   //---------------------------------------------------------------------------------
-  var values, x0, y0, x, y
+  var values
+  , x0, y0, x, y
   , dx0 = 0
   , dy0
   , width = 1
-  , height
+  , innerBarWidth = 1
 
   function self(selection) {
     selection.each(function(data) {
-      var g = d3.select(this);
-
-      var yValues = values(data)
+      var g = d3.select(this)
+      , yValues = values(data)
       , keys = _.keys(yValues)
-      var paths = _.map(keys, function (key, i) {
-        var rect = Rect().x0(x0).y0(y0).x(x)
-        , barY = function (d) {
-          return y(values(d)[key]) }
-        rect.y(barY)
-        rect.dx0(dx0 + i/keys.length)
-        rect.width(width/keys.length)
-        
-        g.append('path')
-          .classed('bar', true)
-          .classed(key, true)
-          .attr('d', rect(data))
-      })
+      , vx0 = x0(data)
+      , vy0 = y0(data)
+      , vx = x(data)
+      , vy = y(data)
+      , vxWidth = vx - vx0
+      , vyWidth = vy - vy0
 
-      paths.forEach(function (path) {
+      vx0 = vx0 + vxWidth * dx0
+
+      if (width !== 1) var relWidth = vxWidth * width
+
+      var rectBuilders = _.map(keys, function (key, i) {
+        return Rect()
+          .x0(i/keys.length * relWidth)
+          .y0(function (d) { return y0(values(d)[key]) })
+          .x((i+1)/keys.length * relWidth)
+          .y(function (d) { return y(values(d)[key]) })
+          .width(innerBarWidth)
       })
+      function buildPath(key, i) { return rectBuilders[i](data) }
+
+      var update = d3.transition(g)
+        .attr('transform', 'translate('+ vx0 +',0)')
+
+      var bars = g.selectAll('.bar').data(keys)
+
+      d3.transition(bars.enter().append('path'))
+        .attr('class', function (key) { return 'bar ' + key })
+
+      //bars update
+      d3.transition(bars)
+        .attr('d', buildPath)
+
+      bars.exit().remove()
+
     })
   }
 
@@ -46,6 +65,7 @@ module.exports = function (options) {
   , y: {get: function(){return y;}, set: function(v){ y = v }}
   , dx0: {get: function(){return dx0;}, set: function(v){ dx0 = v }}
   , width: {get: function(){return width}, set: function(v){ width = v }}
+  , innerBarWidth: {get: function(){return innerBarWidth}, set: function(v){ innerBarWidth = v }}
   })
 
   Config.setModuleAccessors(self);
