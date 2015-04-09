@@ -23,16 +23,28 @@ Self.prototype.floor = function (intervalName) {
   }
 }
 /**
- * @return number of passed intervals of specified @intervalName in this
+ * @returns Number of full calendar intervals named @intervalName in this
  */
-Self.prototype.contains = function (intervalName) {
-  var step = 1
-  if (intervalName === 'decade') {
-    intervalName = 'year'
-    step = 10
-  }
+Self.prototype.count = function (intervalName) {
+  var self = this
   if (!d3.time[intervalName]) return
-  return d3.time[intervalName].range(this.start, this.end, step).length
+
+  //end of the nearest calendar [intervalName] interval
+  var calEnd = d3.time[intervalName](self.end)
+
+  //calculate fraction of the interval
+  var fraction = 0
+  if (calEnd < self.end) {
+    var nextCalEnd = d3.time[intervalName].offset(calEnd, 1)
+    fraction = (self.end - calEnd)/(nextCalEnd - calEnd)
+  }
+
+  return d3.time[intervalName].range(self.start, calEnd).length + fraction
+}
+
+Self.prototype.contains = function (intervalName) {
+  var self = this
+  return self.count(intervalName) >= 1
 }
 
 module.exports = Self
