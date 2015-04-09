@@ -1,6 +1,7 @@
 module.exports = {
   Interval: require('./Interval')
 
+  //TODO remove or fix
 , daysPassed: function (start, end) {
     var oneDay = 1000 * 60 * 60 * 24
     return Math.floor((end - start) / oneDay)
@@ -10,5 +11,4 @@ module.exports = {
     var format = d3.time.format('%H:%M:%S')
     return (format.parse(date) - format.parse('0:0:0'))/60000
   }
-
 }
