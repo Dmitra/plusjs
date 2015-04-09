@@ -6,6 +6,7 @@ var Self = function (start, end) {
   self.start = start
   self.end = end
 }
+Self.weekDays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
 
 /**
  * Round start and end of the interval to the nearest start of the specified interval @name in the past
@@ -14,30 +15,24 @@ var Self = function (start, end) {
  */
 Self.prototype.floor = function (intervalName) {
   var self = this
-  , start
-  , end
-  start = d3.time[intervalName].floor(self.start)
-  end = d3.time[intervalName].floor(self.end)
-  //TODO find better solution
-  //change the end of the interval to be within the interval
-  //end = d3.time.second.offset(end, -1)
-  return new Self(start, end)
+  //Do not floor to week with custom start
+  if (_.contains(Self.weekDays, intervalName)) {
+    return self
+  } else {
+    return new Self(d3.time[intervalName].floor(self.start), d3.time[intervalName].floor(self.end))
+  }
 }
 /**
  * @return number of passed intervals of specified @intervalName in this
  */
 Self.prototype.contains = function (intervalName) {
+  var step = 1
+  if (intervalName === 'decade') {
+    intervalName = 'year'
+    step = 10
+  }
   if (!d3.time[intervalName]) return
-  return d3.time[intervalName].range(this.start, this.end, 1).length
+  return d3.time[intervalName].range(this.start, this.end, step).length
 }
-
-//Object.defineProperty(Self.prototype, "start", {
-  //set: function () {
-  //}
-//})
-//Object.defineProperty(Self.prototype, "end", {
-  //set: function () {
-  //}
-//})
 
 module.exports = Self
