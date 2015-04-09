@@ -1,5 +1,5 @@
-var Rect = require('../../lib/vis/svg/Rect')
-var Config = require('../../lib/vis/core/Config')
+var Rect = require('./Rect')
+var Config = require('../core/Config')
 module.exports = function (options) {
   // Default Settings
   //---------------------------------------------------------------------------------
@@ -14,7 +14,7 @@ module.exports = function (options) {
     selection.each(function(data) {
       var g = d3.select(this)
       , yValues = values(data)
-      , keys = _.keys(yValues)
+      , barData = _.map(yValues, function (value, key) { return {key: key, value: value}} )
       , vx0 = x0(data)
       , vy0 = y0(data)
       , vx = x(data)
@@ -26,12 +26,12 @@ module.exports = function (options) {
 
       if (width !== 1) var relWidth = vxWidth * width
 
-      var rectBuilders = _.map(keys, function (key, i) {
+      var rectBuilders = _.map(barData, function (barDatum, i) {
         return Rect()
-          .x0(i/keys.length * relWidth)
-          .y0(function (d) { return y0(values(d)[key]) })
-          .x((i+1)/keys.length * relWidth)
-          .y(function (d) { return y(values(d)[key]) })
+          .x0(i/barData.length * relWidth)
+          .y0(function (d) { return y0(values(d)[barDatum.key]) })
+          .x((i+1)/barData.length * relWidth)
+          .y(function (d) { return y(values(d)[barDatum.key]) })
           .width(innerBarWidth)
       })
       function buildPath(key, i) { return rectBuilders[i](data) }
@@ -39,10 +39,10 @@ module.exports = function (options) {
       var update = d3.transition(g)
         .attr('transform', 'translate('+ vx0 +',0)')
 
-      var bars = g.selectAll('.bar').data(keys)
+      var bars = g.selectAll('.bar').data(barData)
 
       d3.transition(bars.enter().append('path'))
-        .attr('class', function (key) { return 'bar ' + key })
+        .attr('class', function (d) { return 'bar ' + d.key })
 
       //bars update
       d3.transition(bars)
