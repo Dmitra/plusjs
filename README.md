@@ -7,8 +7,8 @@
 
 ##Demo
 There are some examples available:
-[Composite radial visualization](http://dmitra.com/vis/runstat/index.htm)
-[Radial visualization](http://dmitra.com/vis/cityweather/index.htm)
+[Composite radial visualization](http://dmitra.com/vis/runstat/index.html)
+[Radial visualization](http://dmitra.com/vis/cityweather/index.html)
 
 ##Usage
   You may include dependencies and vis.min.js downloaded from this repository or use browserify to include only necessary modules from source.

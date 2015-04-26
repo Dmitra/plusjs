@@ -14,7 +14,7 @@ module.exports = function (options) {
     selection.each(function(data) {
       var g = d3.select(this)
       , yValues = values(data)
-      , barData = _.map(yValues, function (value, key) { return {key: key, value: value}} )
+      , barData = d3.entries(yValues)
       , vx0 = x0(data)
       , vy0 = y0(data)
       , vx = x(data)

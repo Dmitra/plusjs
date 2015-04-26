@@ -1,6 +1,7 @@
 var Config = require('../core/Config')
 module.exports = function (options) {
 
+  //TODO remove size and center accessors as we can do relative layouting around start of coordinates!!!
   // Default Settings
   //---------------------------------------------------------------------------------
   var rotate = 0

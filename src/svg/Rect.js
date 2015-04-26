@@ -12,7 +12,6 @@ module.exports = function() {
     , widthFn = 1
     , heightFn = 1
 
-  //Unit values are in radians
   function self(data) {
     if (x && y) {
       pathFn = absolute
@@ -52,8 +51,10 @@ module.exports = function() {
   , y0: {get: function(){return y0;}, set: function(v){ y0 = d3.functor(v) }}
   , x: {get: function(){return x;}, set: function(v){ x = d3.functor(v) }}
   , y: {get: function(){return y;}, set: function(v){ y = d3.functor(v) }}
+    // x offset as a part of calculated width
   , dx0: {get: function(){return dx0;}, set: function(v){ dx0 = v }}
   , dy0: {get: function(){return dy0;}, set: function(v){ dy0 = v }}
+    // set actual width as a part of calculated width
   , width: {get: function(){return widthFn;}, set: function(v){ widthFn = d3.functor(v) }}
   , height: {get: function(){return heightFn;}, set: function(v){ heightFn = d3.functor(v) }}
   })
