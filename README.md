@@ -1,25 +1,79 @@
-#Vis
-reusable and configurable js library for radial visualizations
+#PlusJS
+  reusable and configurable js library for data visualizations
 
-Built with love and D3.js
+  Built with love and D3.js.
+
+  Consist of many modules and has similar structure as d3 do internally. By virtue of browserify they can be used individually.
 
 ##Demo
-[Composite visualization](http://dmitra.com/vis/example/Runstat.htm)
+There are some examples available:
+[Composite radial visualization](http://dmitra.com/vis/runstat/index.htm)
+[Radial visualization](http://dmitra.com/vis/cityweather/index.htm)
 
 ##Usage
-You may include dependencies and vis.min.js downloaded from this repository or use browserify to include only necessary modules from source. See [examples](https://github.com/Dmitra/Vis/tree/master/example) for details.
+  You may include dependencies and vis.min.js downloaded from this repository or use browserify to include only necessary modules from source.
 
-When developing locally, note that your browser may enforce strict permissions for reading files out of the local file system. If you use d3.xhr locally (including d3.json et al.), you must have a local web server. For example, you can run Python's built-in server:
+##Modules
+###Array
+  d3.cumulative
+  lodash has many usefull methods - how to merge them with d3?
+  test d3.min vs _.min performance
 
-    python -m SimpleHTTPServer 8888 &
+###Selection
+  d3.selection.delegate as https://groups.google.com/forum/#!topic/d3-js/lpezER89BOc
+
+###Layout
+  operates on data
+  writes **relative** coordinates to data attributes (naming by *convention*)
+  have public functions to set relative positioning configuration, data input ranges(domain)
+    e.g.
+      Pie: startAngle, endAngle - sets start/end of the whole layout
+      Radial: range
+  Hierarchy
+    Tree - 
+    Cluster - same as Tree, but produces dendograms with leafs on the same level
+    +Partition
+    Pack
+    Treemap
+  -Bundle - Radial with mutial links inside circle
+  -Chord - show relationships among a group of entities
+  Force
+  +Pie - TODO generalize
+  ?Histogram
+
+###Svg
+  operates on elements
+  have public functions to set coordinate **absolute** binding
+  and **relative** which by conventions reads the attributes set in the *Layout*
+    e.g.
+      Arc relative accessors: startAngle, endAngle - sets start/end of each arc
+      Arc absolute accessors: innerRadius, outerRadius - sets absolute binding to the [0,0] point of the container
+  Axis
+  Shapes
+    Arc
+    Area
+    Diagonal
+    Line
+    Symbol
+    -Chord
+  Control
+    Brush
+    Lasso - implemented as plugin
+
+###Behavior
+  ~Zoom
+  ~Pan
+  ~D&D
+  ~Selection
+###Core
+###Format
 
 ##Dependencies
-    D3.js
-    underscore.js
+  d3.js
+  lodash.js
 ##Roadmap
-+ Add more visual elements
-+ Interactivity
-+ Add animation
+### Add more visual elements
+  * Axis labels in the middle. Custom axis OR rewrite D3.svg.axis?
 
 ##License
     MIT

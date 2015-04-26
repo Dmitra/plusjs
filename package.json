@@ -1,11 +1,11 @@
 {
-  "name": "PlusJS",
+  "name": "plusjs",
   "version": "0.0.2",
   "description": "reusable library for data visualizations",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/Dmitra/PlusJS.git"
+    "url": "git://github.com/Dmitra/plusjs.git"
   },
   "keywords": [
     "d3",
@@ -41,9 +41,9 @@
     "node-sass": "latest"
   },
   "bugs": {
-    "url": "https://github.com/Dmitra/PlusJS/issues"
+    "url": "https://github.com/Dmitra/pLusjs/issues"
   },
-  "homepage": "https://github.com/Dmitra/PlusJS",
+  "homepage": "https://github.com/Dmitra/plusjs",
   "directories": {
     "example": "example"
   }
