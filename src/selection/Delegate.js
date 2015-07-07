@@ -3,7 +3,7 @@ module.exports = function(event, target, handler) {
   function delegate(handler, target) {
     return function() {
       var evtTarget = d3.event.target
-      if ($(evtTarget).is(target)) {
+      if (d3.select(evtTarget).classed(target.substring(1))) {
         handler.call(evtTarget, evtTarget.__data__)
       }
     }
