@@ -1,6 +1,7 @@
 module.exports = function radialGridLine(config) {
   //Set defaults
-  var name = 'gridLine' + config.name || ''
+  var className = 'gridLine'
+    , name = config.name || ''
     , sectorSize = config.sectorSize || 0
     , domain = config.domain || [0,0]
     , range = config.range || [0,0]
@@ -15,17 +16,19 @@ module.exports = function radialGridLine(config) {
     .map(function (d) { return pixelScale(d) })
     
 
-  config.target.append('g').attr('class', name + 'Group')
-    .selectAll('.' + name)
-    .data(ticks)
-    .enter()
-    .append('circle')
-    .attr('class', name)
-    .attr('r', function (d) { return d })
-    .attr('cx', center[0])
-    .attr('cy', center[1])
-    .attr('stroke-dasharray', function (d) {
-      var arcLength = 2 * Math.PI * d / config.sectors
-      return [arcLength * sectorSize, arcLength * (1 - sectorSize)].toString()
-    })
+  config.target.append('g')
+    .classed(className + 'Group', true)
+    .classed(name, true)
+    .selectAll('.' + className)
+      .data(ticks)
+      .enter()
+      .append('circle')
+      .classed(className, true)
+      .attr('r', function (d) { return d })
+      .attr('cx', center[0])
+      .attr('cy', center[1])
+      .attr('stroke-dasharray', function (d) {
+        var arcLength = 2 * Math.PI * d / config.sectors
+        return [arcLength * sectorSize, arcLength * (1 - sectorSize)].toString()
+      })
 }

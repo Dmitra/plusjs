@@ -2,7 +2,7 @@
   "name": "plusjs",
   "version": "0.0.2",
   "description": "reusable library for data visualizations",
-  "main": "index.js",
+  "main": "src/index.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/Dmitra/plusjs.git"
@@ -20,7 +20,7 @@
     "build": "npm run build-debug && npm run build-min",
     "pretest": "jshint --exclude-path .gitignore",
     "test": "mocha",
-    "start": "python.exe -m SimpleHTTPServer",
+    "start": "static",
     "start-dev": "NODE_ENV=development npm run watch",
     "watch": "npm run watch-server & npm run watch-css",
     "watch-server": "nodemon --ignore public/ --ignore client/ --ignore test/ index.js",
@@ -34,6 +34,7 @@
     "d3-transform": "<=1.0.3"
   },
   "devDependencies": {
+    "node-static": "latest",
     "browserify": "<=8.1.3",
     "uglify-js": "latest",
     "watchify": "latest",

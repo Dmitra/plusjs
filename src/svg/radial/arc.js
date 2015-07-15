@@ -1,7 +1,8 @@
 var Radial = require('../../layout/Radial')
 module.exports = function arc(config, data) {
   //Set defaults
-  var name = 'arc' + config.name || ''
+  var className = 'arc'
+  , name = config.name || ''
   , innerRadius = config.innerRadius || 100
   , radius = config.radius || 110
   , color = config.color || ''
@@ -17,16 +18,18 @@ module.exports = function arc(config, data) {
     .innerRadius(innerRadius)
     .outerRadius(innerRadius + radius)
 
-  var self = config.target.append('g').attr('id', name + 'Group')
+  var self = config.target.append('g')
+    .classed(className + 'Group', true)
+    .classed(name, true)
     //Move to center
     .attr('transform', 'translate(' + layout.center()[0] + ',' + layout.center()[1] + ')')
-    .selectAll('.' + name)
+    .selectAll('.' + className)
     .data(data)
 
   self
     .enter()
     .append('path')
-    .attr('class', name)
+    .attr('class', className)
     .attr('d', arc)
     .style('fill', color)
 }

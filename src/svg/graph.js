@@ -1,10 +1,13 @@
 module.exports = function graph(config, data) {
   //Set defaults
-  var name = 'graph' + config.name || ''
+  var className = 'graph'
+  , name = config.name || ''
   , tension = config.tension || 0.7
   , interpolate = config.interpolate || 'basis'
 
-  var self = config.target.append('g').attr('id', name + 'Group')
+  var self = config.target.append('g')
+    .classed(className + 'Group', true)
+    .classed(name, true)
 
   var curve = d3.svg.line()
     .x(function (d) { return d.x })
@@ -15,6 +18,6 @@ module.exports = function graph(config, data) {
   self
     .append('path')
     .datum(data)
-    .attr('class', name)
+    .classed(className, true)
     .attr('d', curve)
 }

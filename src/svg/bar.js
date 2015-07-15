@@ -1,16 +1,20 @@
 module.exports = function bar(config, data) {
   //Set defaults
-  var name = 'bar' + config.name || ''
+  var className = 'bar'
+    , name = config.name || ''
     , dashed = config.dashed || ''
     , color = config.color || ''
     , key = config.key || undefined
 
-  var self = config.target.append('g').attr('id', name + 'Group')
-    .selectAll('.' + name)
+  var self = config.target.append('g')
+    .classed(className + 'Group', true)
+    .classed(name, true)
+    .selectAll('.' + className)
     .data(data, key)
+
   var enter = self.enter()
   enter.append('path')
-    .attr('class', name)
+    .attr('class', className)
     //.attr('stroke', 'url(#grad1)')
     .attr('stroke-dasharray', dashed)
     .attr('d', bar)

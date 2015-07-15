@@ -5,4 +5,8 @@ self.GUID = function () {
     return v.toString(16);
   });
 }
+self.isNumeric = function (n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
 module.exports = self

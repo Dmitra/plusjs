@@ -1,14 +1,18 @@
 module.exports = function circle(config, data) {
   //Set defaults
-  var name = 'circle' + config.name || ''
+  var className = 'circle'
+  , name = config.name || ''
 
-  var self = config.target.append('g').attr('id', name + 'Group')
-    .selectAll('.' + name)
+  var self = config.target.append('g')
+    .classed(className + 'Group', true)
+    .classed(name, true)
+    .selectAll('.' + className)
     .data(data)
+
   self
     .enter()
     .append('circle')
-    .attr('class', name)
+    .classed(className, true)
     .attr('cx', function (d) { return d.x })
     .attr('cy', function (d) { return d.y })
     .attr('r', config.size)

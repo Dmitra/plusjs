@@ -21,6 +21,7 @@ There are some examples available:
 
 ###Selection
   d3.selection.delegate as https://groups.google.com/forum/#!topic/d3-js/lpezER89BOc
+  embed d3-transform plugin?
 
 ###Layout
   operates on data

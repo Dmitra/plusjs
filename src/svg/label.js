@@ -1,13 +1,15 @@
 var Util = require('../core/Util')
 module.exports = function label(config, data) {
   //Set defaults
-  var name = 'label' + config.name || ''
+  var className = 'label'
+    , name = config.name || ''
     , textPather = config.textPath || ''
     , color = config.color || ''
     , center = config.center || [100,100]
 
   if (textPather) {
     config.target.append('g')
+      .classed(name, true)
       .selectAll('.labelTextPath')
       .data(data)
       .enter()
@@ -20,12 +22,13 @@ module.exports = function label(config, data) {
 
   var self = config.target.append('g')
     .attr('transform', 'translate(' + center[0] + ',' + (center[1]) + ')')
-    .selectAll('.' + name)
+    .selectAll('.' + className)
     .data(data)
+
   self
     .enter()
     .append('text')       
-    .attr('class', name)
+    .attr('class', className)
     .append('textPath')
     .attr('xlink:href', function (d) { return '#' + d.id })
     //render multiline labels
