@@ -12,7 +12,7 @@ module.exports = function radialGridLine(config) {
     .range(range)
 
   var ticks = pixelScale
-    .ticks(config.domain[1]/config.step)
+    .ticks(Math.abs(config.domain[1] - config.domain[0])/config.step)
     .map(function (d) { return pixelScale(d) })
     
 
