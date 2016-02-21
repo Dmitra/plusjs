@@ -29,8 +29,8 @@
     "watch-css": "nodemon -e scss -x \"npm run build-css\""
   },
   "dependencies": {
-    "d3": "<=3.5.0",
-    "lodash": "<=3.5.0",
+    "d3": "latest",
+    "lodash": "latest",
     "d3-transform": "<=1.0.3"
   },
   "devDependencies": {
