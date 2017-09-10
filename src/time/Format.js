@@ -1,5 +1,5 @@
 /**
- */
+*/
 var Self = function (key) {
   if (key && _.contains(key, '%')) {
     return d3.time.format(key)
